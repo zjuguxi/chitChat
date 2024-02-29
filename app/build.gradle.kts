@@ -8,6 +8,8 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    id("org.springframework.boot") version "3.2.3"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 repositories {
@@ -23,6 +25,19 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    implementation(libs.spring.web) {
+        exclude("org.springframework.boot", "spring-boot-starter-tomcat")
+    }
+    implementation(libs.spring.web.jetty)
+    implementation(libs.springdoc.openapi)
+}
+
+springBoot {
+    buildInfo()
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
