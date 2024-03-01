@@ -4,7 +4,12 @@
 [versions]
 guava = "32.1.3-jre"
 junit-jupiter = "5.10.0"
+springdoc-openapi = "2.3.0"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+lombok = { module = "org.projectlombok:lombok" }
+spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-web-jetty = { module = "org.springframework.boot:spring-boot-starter-jetty" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc-openapi" }
