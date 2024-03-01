@@ -34,6 +34,10 @@ dependencies {
     }
     implementation(libs.spring.web.jetty)
     implementation(libs.springdoc.openapi)
+
+    implementation(libs.spring.data.jpa)
+    implementation(libs.hibernate.dialects)
+    implementation(libs.sqlite.jdbc)
 }
 
 springBoot {

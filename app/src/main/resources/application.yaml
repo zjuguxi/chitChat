@@ -5,6 +5,11 @@ server:
 spring:
   application:
     name: chitChat
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:db.sqlite
 logging:
   level:
     root: info
