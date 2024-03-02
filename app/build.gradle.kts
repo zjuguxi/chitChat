@@ -18,21 +18,24 @@ repositories {
 }
 
 dependencies {
-    testImplementation(libs.spring.test)
 
-    // This dependency is used by the application.
-    implementation(libs.guava)
-
+    // tools
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    implementation(libs.google.guava)
 
-    implementation(libs.spring.web) {
+    // test
+    testImplementation(libs.spring.boot.test)
+
+    // web
+    implementation(libs.spring.boot.web) {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
     }
-    implementation(libs.spring.web.jetty)
+    implementation(libs.spring.boot.jetty)
     implementation(libs.springdoc.openapi)
 
-    implementation(libs.spring.data.jpa)
+    // db
+    implementation(libs.spring.boot.data.jpa)
     implementation(libs.hibernate.dialects)
     implementation(libs.sqlite.jdbc)
 }
