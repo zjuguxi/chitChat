@@ -16,5 +16,8 @@ spring:
 logging:
   level:
     root: info
+    org:
+      hibernate:
+        SQL: trace
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS
