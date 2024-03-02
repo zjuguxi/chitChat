@@ -18,22 +18,26 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation(libs.junit.jupiter)
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // This dependency is used by the application.
-    implementation(libs.guava)
-
+    // tools
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    implementation(libs.google.guava)
 
-    implementation(libs.spring.web) {
+    // test
+    testImplementation(libs.spring.boot.test)
+
+    // web
+    implementation(libs.spring.boot.web) {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
     }
-    implementation(libs.spring.web.jetty)
+    implementation(libs.spring.boot.jetty)
     implementation(libs.springdoc.openapi)
+
+    // db
+    implementation(libs.spring.boot.data.jpa)
+    implementation(libs.hibernate.dialects)
+    implementation(libs.sqlite.jdbc)
 }
 
 springBoot {
