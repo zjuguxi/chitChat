@@ -6,3 +6,6 @@ build
 
 # Ignore SQLite local database
 db.sqlite
+
+# Ignore vscode configuration
+.vscode
