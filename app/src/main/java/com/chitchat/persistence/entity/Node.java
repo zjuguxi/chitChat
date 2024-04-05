@@ -1,4 +1,4 @@
-package org.example.model;
+package com.chitchat.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

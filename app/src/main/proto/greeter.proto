@@ -1,11 +1,12 @@
 syntax = "proto3";
 
-package org.example.protobuf;
+package com.chitchat;
 
 option java_multiple_files = true;
+option java_package = "com.chitchat.grpc.service";
 
-service HelloService {
-  rpc sayHello (HelloRequest) returns (HelloResponse);
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloResponse);
 }
 
 message HelloRequest {

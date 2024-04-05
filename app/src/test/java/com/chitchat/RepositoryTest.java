@@ -1,8 +1,8 @@
-package org.example;
+package com.chitchat;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.example.model.Node;
-import org.example.repository.NodeRepository;
+import com.chitchat.persistence.entity.Node;
+import com.chitchat.persistence.repository.NodeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
