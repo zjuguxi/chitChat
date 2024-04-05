@@ -1,6 +1,7 @@
 [versions]
-google-guava = "33.0.0-jre"
-springdoc-openapi = "2.3.0"
+google-guava = "33.1.0-jre"
+springdoc-openapi = "2.5.0"
+spring-boot-grpc = "3.0.0.RELEASE"
 
 [libraries]
 # tools
@@ -16,3 +17,5 @@ springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-u
 spring-boot-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 hibernate-dialects = { module = "org.hibernate.orm:hibernate-community-dialects" }
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc" }
+# rpc
+spring-boot-grpc = { module = "net.devh:grpc-spring-boot-starter", version.ref = "spring-boot-grpc" }
