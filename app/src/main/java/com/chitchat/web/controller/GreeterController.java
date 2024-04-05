@@ -1,7 +1,7 @@
 package com.chitchat.web.controller;
 
+import com.chitchat.grpc.service.GreeterGrpc;
 import com.chitchat.grpc.service.HelloRequest;
-import com.chitchat.grpc.service.HelloServiceGrpc;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.http.MediaType;
@@ -14,20 +14,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/demo")
-@Tag(name = "Demo", description = "Demo APIs")
-public class DemoController {
+@RequestMapping(path = "/greeter")
+@Tag(name = "Greeter", description = "Greeter APIs")
+public class GreeterController {
 
     @GrpcClient("local")
-    private HelloServiceGrpc.HelloServiceBlockingStub helloServiceStub;
+    private GreeterGrpc.GreeterBlockingStub greeterStub;
 
     @GetMapping(path = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> get(@RequestParam String name) {
+    public Map<String, Object> hello(@RequestParam String name) {
         HelloRequest request = HelloRequest.newBuilder()
                 .setName(name)
                 .build();
         Map<String, Object> map = new HashMap<>();
-        map.put("message", helloServiceStub.sayHello(request).getMessage());
+        map.put("message", greeterStub.sayHello(request).getMessage());
         return map;
     }
 }
