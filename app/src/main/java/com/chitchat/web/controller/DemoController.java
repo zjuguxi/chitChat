@@ -1,7 +1,7 @@
 package com.chitchat.web.controller;
 
-import com.chitchat.protobuf.HelloRequest;
-import com.chitchat.protobuf.HelloServiceGrpc;
+import com.chitchat.grpc.service.HelloRequest;
+import com.chitchat.grpc.service.HelloServiceGrpc;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.http.MediaType;

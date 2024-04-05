@@ -1,8 +1,5 @@
 package com.chitchat.grpc.service;
 
-import com.chitchat.protobuf.HelloRequest;
-import com.chitchat.protobuf.HelloResponse;
-import com.chitchat.protobuf.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
