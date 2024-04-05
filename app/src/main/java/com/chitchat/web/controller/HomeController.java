@@ -1,4 +1,4 @@
-package org.example.controller;
+package com.chitchat.web.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.stereotype.Controller;

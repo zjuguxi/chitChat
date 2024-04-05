@@ -1,9 +1,9 @@
-package org.example.controller;
+package com.chitchat.web.controller;
 
+import com.chitchat.protobuf.HelloRequest;
+import com.chitchat.protobuf.HelloServiceGrpc;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.devh.boot.grpc.client.inject.GrpcClient;
-import org.example.protobuf.HelloRequest;
-import org.example.protobuf.HelloServiceGrpc;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
