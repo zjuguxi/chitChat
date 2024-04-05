@@ -1,6 +1,6 @@
 [versions]
-google-guava = "33.0.0-jre"
-springdoc-openapi = "2.3.0"
+google-guava = "33.1.0-jre"
+springdoc-openapi = "2.5.0"
 
 [libraries]
 # tools
