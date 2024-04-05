@@ -1,5 +1,4 @@
-package com.chitchat;
+package com.chitchat.domain;
 
 public class ChitChatNode {
-    
 }
