@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chitChat</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -16,10 +18,14 @@
 </div>
 
 <div>
-    <input type="text" id="nameInput" placeholder="Please input your name">
+    <label class="font-bold" for="nameInput">Name: </label>
+    <input class="rounded border-solid border p-1" type="text" id="nameInput" placeholder="John Doe">
     <button id="submitButton">Submit</button>
 </div>
-<div id="messageDisplay"></div>
+<div>
+    <span class="font-bold">Message: </span>
+    <span class="text-green-800" id="messageDisplay"></span>
+</div>
 
 </body>
 </html>
