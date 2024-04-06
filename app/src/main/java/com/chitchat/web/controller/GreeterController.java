@@ -1,6 +1,6 @@
 package com.chitchat.web.controller;
 
-import com.chitchat.grpc.service.GreeterGrpc;
+import com.chitchat.grpc.service.GreeterServiceGrpc;
 import com.chitchat.grpc.service.HelloRequest;
 import com.chitchat.grpc.service.HelloResponse;
 import com.chitchat.web.dto.HelloRequestDto;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreeterController {
 
     @GrpcClient("local")
-    private GreeterGrpc.GreeterBlockingStub greeterStub;
+    private GreeterServiceGrpc.GreeterServiceBlockingStub greeterServiceStub;
 
     @PostMapping(path = "/hello",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -28,7 +28,7 @@ public class GreeterController {
         HelloRequest request = HelloRequest.newBuilder()
                 .setName(requestDto.getName())
                 .build();
-        HelloResponse response = greeterStub.sayHello(request);
+        HelloResponse response = greeterServiceStub.sayHello(request);
         return new HelloResponseDto(response.getMessage());
     }
 }

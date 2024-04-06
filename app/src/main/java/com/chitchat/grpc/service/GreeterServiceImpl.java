@@ -4,7 +4,7 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
-public class GreeterServiceImpl extends GreeterGrpc.GreeterImplBase {
+public class GreeterServiceImpl extends GreeterServiceGrpc.GreeterServiceImplBase {
 
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
