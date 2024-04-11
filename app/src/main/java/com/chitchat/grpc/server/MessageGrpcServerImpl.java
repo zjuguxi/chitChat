@@ -2,6 +2,7 @@ package com.chitchat.grpc.server;
 
 import com.chitchat.domain.message.Message;
 import com.chitchat.domain.message.MessageService;
+import com.chitchat.grpc.service.EmptyRequest;
 import com.chitchat.grpc.service.EmptyResponse;
 import com.chitchat.grpc.service.MessageIdsRequest;
 import com.chitchat.grpc.service.MessageIdsResponse;
@@ -55,7 +56,12 @@ public class MessageGrpcServerImpl extends MessageServiceGrpc.MessageServiceImpl
     }
 
     @Override
-    public void fetchDifference(MessageIdsRequest request, StreamObserver<MessageIdsResponse> responseObserver) {
-        // todo
+    public void fetchMessageIds(EmptyRequest request, StreamObserver<MessageIdsResponse> responseObserver) {
+        List<String> existedIds = messageService.getAllMessageIds();
+        MessageIdsResponse response = MessageIdsResponse.newBuilder()
+                .addAllIds(existedIds)
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 }

@@ -8,5 +8,5 @@ public interface MessageGrpcClient {
 
     List<Message> pullMessages(String serverAddress, List<String> ids);
 
-    List<String> fetchDifference(String serverAddress, List<String> ids);
+    List<String> fetchMessageIds(String serverAddress);
 }
