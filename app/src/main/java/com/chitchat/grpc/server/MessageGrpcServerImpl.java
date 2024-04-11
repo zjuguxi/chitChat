@@ -33,7 +33,7 @@ public class MessageGrpcServerImpl extends MessageServiceGrpc.MessageServiceImpl
 
     @Override
     public void pullMessages(MessageIdsRequest request, StreamObserver<MessagesResponse> responseObserver) {
-        List<Long> ids = request.getIdsList();
+        List<String> ids = request.getIdsList();
         List<Message> messages = messageService.getMessagesByIds(ids);
         List<MessageResponse> messageResponses = messages.stream()
                 .map(message -> {

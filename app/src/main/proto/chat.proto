@@ -15,19 +15,17 @@ service MessageService {
 }
 
 message MessageRequest {
-  int64 id = 1;
+  string id = 1;
   string sender = 2;
   int64 send_time = 3;
   string content = 4;
-  string receiver = 5;
 }
 
 message MessageResponse {
-  int64 id = 1;
+  string id = 1;
   string sender = 2;
   int64 send_time = 3;
   string content = 4;
-  string receiver = 5;
 }
 
 message MessagesResponse {
@@ -35,11 +33,11 @@ message MessagesResponse {
 }
 
 message MessageIdsRequest {
-  repeated int64 ids = 1;
+  repeated string ids = 1;
 }
 
 message MessageIdsResponse {
-  repeated int64 ids = 1;
+  repeated string ids = 1;
 }
 
 // Node
