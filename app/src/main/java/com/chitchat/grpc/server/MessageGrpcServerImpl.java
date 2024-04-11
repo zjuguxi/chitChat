@@ -11,7 +11,6 @@ import com.chitchat.grpc.service.MessageServiceGrpc;
 import com.chitchat.grpc.service.MessagesResponse;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -24,8 +23,12 @@ public class MessageGrpcServerImpl extends MessageServiceGrpc.MessageServiceImpl
 
     @Override
     public void pushMessage(MessageRequest request, StreamObserver<EmptyResponse> responseObserver) {
-        Message message = new Message();
-        BeanUtils.copyProperties(request, message);
+        Message message = Message.builder()
+                .id(request.getId())
+                .sender(request.getSender())
+                .sendTime(request.getSendTime())
+                .content(request.getContent())
+                .build();
         messageService.saveMessage(message);
         responseObserver.onNext(EmptyResponse.getDefaultInstance());
         responseObserver.onCompleted();
@@ -36,11 +39,13 @@ public class MessageGrpcServerImpl extends MessageServiceGrpc.MessageServiceImpl
         List<String> ids = request.getIdsList();
         List<Message> messages = messageService.getMessagesByIds(ids);
         List<MessageResponse> messageResponses = messages.stream()
-                .map(message -> {
-                    MessageResponse messageResponse = MessageResponse.newBuilder().build();
-                    BeanUtils.copyProperties(message, messageResponse);
-                    return messageResponse;
-                })
+                .map(message -> MessageResponse.newBuilder()
+                        .setId(message.getId())
+                        .setSender(message.getSender())
+                        .setSendTime(message.getSendTime())
+                        .setContent(message.getContent())
+                        .build()
+                )
                 .toList();
         MessagesResponse response = MessagesResponse.newBuilder()
                 .addAllMessages(messageResponses)
