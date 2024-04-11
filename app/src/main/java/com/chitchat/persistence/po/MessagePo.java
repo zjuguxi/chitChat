@@ -1,23 +1,27 @@
-package com.chitchat.persistence.entity;
+package com.chitchat.persistence.po;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "message")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Node {
+public class MessagePo {
 
     @Id
     private Long id;
 
-    private String name;
+    private String sender;
 
-    private Boolean isActive;
+    private Long sendTime;
+
+    private String content;
+
+    private String receiver;
 }
