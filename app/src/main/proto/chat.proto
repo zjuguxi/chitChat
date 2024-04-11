@@ -41,3 +41,15 @@ message MessageIdsRequest {
 message MessageIdsResponse {
   repeated int64 ids = 1;
 }
+
+// Node
+message NodeInfo {
+  string node_id = 1;
+  string host = 2;
+  int32 port = 3;
+}
+
+// Response of a node list
+message NodeInfoResponse {
+  repeated NodeInfo nodes = 1;
+}
