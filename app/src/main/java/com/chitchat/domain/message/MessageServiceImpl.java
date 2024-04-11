@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getMessagesByIds(List<Long> ids) {
+    public List<Message> getMessagesByIds(List<String> ids) {
         return messageRepository.getMessagesByIds(ids);
     }
 }

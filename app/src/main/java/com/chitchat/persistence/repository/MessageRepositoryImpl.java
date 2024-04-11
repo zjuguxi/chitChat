@@ -18,7 +18,7 @@ public class MessageRepositoryImpl implements MessageRepository {
     private MessageCrudRepository messageCrudRepository;
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean existsById(String id) {
         return messageCrudRepository.existsById(id);
     }
 
@@ -48,7 +48,7 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
-    public List<Message> getMessagesByIds(List<Long> ids) {
+    public List<Message> getMessagesByIds(List<String> ids) {
         Iterable<MessagePo> iterable = messageCrudRepository.findAllById(ids);
         return convertToMessages(iterable);
     }

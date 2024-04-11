@@ -27,7 +27,7 @@ public class MessageGrpcClientImpl implements MessageGrpcClient {
     }
 
     @Override
-    public List<Message> pullMessages(List<Long> ids) {
+    public List<Message> pullMessages(List<String> ids) {
         MessageIdsRequest request = MessageIdsRequest.newBuilder()
                 .addAllIds(ids)
                 .build();
@@ -42,7 +42,7 @@ public class MessageGrpcClientImpl implements MessageGrpcClient {
     }
 
     @Override
-    public List<Long> fetchDifference(List<Long> ids) {
+    public List<String> fetchDifference(List<String> ids) {
         MessageIdsRequest request = MessageIdsRequest.newBuilder()
                 .addAllIds(ids)
                 .build();

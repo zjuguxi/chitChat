@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MessageRepository {
 
-    boolean existsById(Long id);
+    boolean existsById(String id);
 
     void saveMessage(Message message);
 
@@ -12,5 +12,5 @@ public interface MessageRepository {
 
     List<Message> getAllMessages();
 
-    List<Message> getMessagesByIds(List<Long> ids);
+    List<Message> getMessagesByIds(List<String> ids);
 }

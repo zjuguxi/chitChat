@@ -10,5 +10,5 @@ public interface MessageService {
 
     List<Message> getAllMessages();
 
-    List<Message> getMessagesByIds(List<Long> ids);
+    List<Message> getMessagesByIds(List<String> ids);
 }
