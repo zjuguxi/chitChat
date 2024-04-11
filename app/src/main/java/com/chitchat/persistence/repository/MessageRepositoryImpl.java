@@ -48,6 +48,11 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
+    public List<String> getAllMessageIds() {
+        return messageCrudRepository.getAllId();
+    }
+
+    @Override
     public List<Message> getMessagesByIds(List<String> ids) {
         Iterable<MessagePo> iterable = messageCrudRepository.findAllById(ids);
         return convertToMessages(iterable);

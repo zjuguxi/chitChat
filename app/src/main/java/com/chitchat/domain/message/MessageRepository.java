@@ -12,5 +12,7 @@ public interface MessageRepository {
 
     List<Message> getAllMessages();
 
+    List<String> getAllMessageIds();
+
     List<Message> getMessagesByIds(List<String> ids);
 }

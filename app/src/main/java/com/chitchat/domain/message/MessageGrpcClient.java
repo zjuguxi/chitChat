@@ -6,7 +6,7 @@ public interface MessageGrpcClient {
 
     void pushMessage(Message message);
 
-    List<Message> pullMessages(List<String> ids);
+    List<Message> pullMessages(String serverAddress, List<String> ids);
 
-    List<String> fetchDifference(List<String> ids);
+    List<String> fetchDifference(String serverAddress, List<String> ids);
 }

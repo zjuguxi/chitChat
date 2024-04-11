@@ -7,8 +7,9 @@ import com.chitchat.grpc.service.MessageIdsResponse;
 import com.chitchat.grpc.service.MessageRequest;
 import com.chitchat.grpc.service.MessageServiceGrpc;
 import com.chitchat.grpc.service.MessagesResponse;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,22 +17,29 @@ import java.util.List;
 @Component
 public class MessageGrpcClientImpl implements MessageGrpcClient {
 
-    @GrpcClient("message") // fixme
-    private MessageServiceGrpc.MessageServiceBlockingStub messageServiceStub;
+    @Value("${grpc.client.test.address}")
+    private List<String> serverAddresses;
+
+    @Autowired
+    private MessageGrpcStubManager stubManager;
 
     @Override
     public void pushMessage(Message message) {
         MessageRequest request = MessageRequest.newBuilder().build();
         BeanUtils.copyProperties(message, request);
-        messageServiceStub.pushMessage(request);
+        for (String serverAddress : serverAddresses) {
+            MessageServiceGrpc.MessageServiceBlockingStub stub = stubManager.getStub(serverAddress);
+            stub.pushMessage(request);
+        }
     }
 
     @Override
-    public List<Message> pullMessages(List<String> ids) {
+    public List<Message> pullMessages(String serverAddress, List<String> ids) {
         MessageIdsRequest request = MessageIdsRequest.newBuilder()
                 .addAllIds(ids)
                 .build();
-        MessagesResponse response = messageServiceStub.pullMessages(request);
+        MessageServiceGrpc.MessageServiceBlockingStub stub = stubManager.getStub(serverAddress);
+        MessagesResponse response = stub.pullMessages(request);
         return response.getMessagesList().stream()
                 .map(messageResponse -> {
                     Message message = new Message();
@@ -42,11 +50,12 @@ public class MessageGrpcClientImpl implements MessageGrpcClient {
     }
 
     @Override
-    public List<String> fetchDifference(List<String> ids) {
+    public List<String> fetchDifference(String serverAddress, List<String> ids) {
         MessageIdsRequest request = MessageIdsRequest.newBuilder()
                 .addAllIds(ids)
                 .build();
-        MessageIdsResponse response = messageServiceStub.fetchDifference(request);
+        MessageServiceGrpc.MessageServiceBlockingStub stub = stubManager.getStub(serverAddress);
+        MessageIdsResponse response = stub.fetchDifference(request);
         return response.getIdsList();
     }
 }
