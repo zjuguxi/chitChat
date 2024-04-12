@@ -26,7 +26,8 @@ public class MessageScheduler {
     public void syncMessagesTask() {
         List<String> existedIds = messageService.getAllMessageIds();
         for (String serverAddress : serverAddresses) {
-            List<String> diffIds = messageGrpcClient.fetchDifference(serverAddress, existedIds);
+            List<String> diffIds = messageGrpcClient.fetchMessageIds(serverAddress);
+            diffIds.removeAll(existedIds);
             List<Message> diffMessages = messageGrpcClient.pullMessages(serverAddress, diffIds);
             messageService.saveMessages(diffMessages);
             existedIds.addAll(diffIds);
