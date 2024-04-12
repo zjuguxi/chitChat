@@ -3,7 +3,6 @@ package com.chitchat.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
-import java.util.Optional;
 
 @Slf4j
 public class IpAddressUtils {
@@ -13,15 +12,14 @@ public class IpAddressUtils {
             InetAddress localHost = InetAddress.getLocalHost();
             return localHost.getHostAddress();
         } catch (Exception e) {
-            log.error("Unable to get local IP Address", e);
-            return null;
+            String message = "Unable to obtain local host's IP address";
+            log.error(message, e);
+            throw new RuntimeException(message);
         }
     }
 
     public static String getFormattedIpAddress() {
-        return Optional.ofNullable(getIpAddress())
-                .map(IpAddressUtils::formatIpAddress)
-                .orElse(null);
+        return formatIpAddress(getIpAddress());
     }
 
     private static String formatIpAddress(String ipAddress) {
