@@ -1,75 +1,53 @@
 package com.chitchat.domain.DHT;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DHTNode implements Runnable {
+public class DHTNode {
     private String nodeId;
     private String host;
     private int port;
-    private ServerSocket serverSocket;
     private DHTManager manager;
-    private volatile boolean running = true;
-    private Map<String, String> dataStore = new ConcurrentHashMap<>();
 
-    public DHTNode(String nodeId, String host, int port, DHTManager manager) throws IOException {
+    public DHTNode(String nodeId, String host, int port, DHTManager manager) {
         this.nodeId = nodeId;
         this.host = host;
         this.port = port;
         this.manager = manager;
-        this.serverSocket = new ServerSocket(port);
-        new Thread(this).start();
+        // 存储本节点信息到数据库
+        DHTUtils.storeNode(nodeId, host, port);
     }
 
-    @Override
-    public void run() {
-        while (running) {
-            try (Socket socket = serverSocket.accept();
-                 ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
-
-                Object request = inputStream.readObject();
-                if (request instanceof String) {
-                    String key = (String) request;
-                    String value = dataStore.get(key);
-                    if (value != null) {
-                        outputStream.writeObject(value);
-                    } else {
-                        outputStream.writeObject("Not found");
-                    }
-                } else if (request instanceof Map.Entry) {
-                    Map.Entry<String, String> entry = (Map.Entry<String, String>) request;
-                    dataStore.put(entry.getKey(), entry.getValue());
-                    outputStream.writeObject("Stored");
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Error handling client request: " + e.getMessage());
+    public void joinNetwork(DHTNode bootstrapNode) {
+        if (bootstrapNode != null) {
+            // 获取最接近的节点列表
+            List<DHTNode> closestNodes = bootstrapNode.findNode(nodeId);
+            for (DHTNode node : closestNodes) {
+                manager.getNodes().putIfAbsent(node.nodeId, node);
             }
+            System.out.println("Node " + nodeId + " joined the network using bootstrap node " + bootstrapNode.nodeId);
+        } else {
+            System.out.println("Node " + nodeId + " joined as the first node in the network.");
         }
     }
 
-    public void stop() throws IOException {
-        running = false;
-        serverSocket.close();
+    public void store(String key, String value) {
+        manager.getDataStore().put(key, value);
+        System.out.println("Key: " + key + " stored with value: " + value);
     }
 
-    public void store(String key, String value) throws IOException {
-        // We store data locally for simplicity
-        dataStore.put(key, value);
-
-        // Also try to replicate this data in the closest nodes
-        replicateData(key, value);
+    public String findValue(String key) {
+        String value = manager.getDataStore().get(key);
+        if (value != null) {
+            System.out.println("Local value for key: " + key + " is " + value);
+            return value;
+        }
+        System.out.println("Value for key: " + key + " not found locally. Searching in other nodes...");
+        return null;
     }
 
-    private void replicateData(String key, String value) throws IOException {
-        // In a real system, you would find the closest nodes and replicate the data there
-        // For now, let's just log the replication action
-        System.out.println("Replicating data to closest nodes...");
-    }
-
-    public String findValue(String key) throws IOException {
-        return dataStore.get(key);
+    public List<DHTNode> findNode(String targetNodeId) {
+        // 简化的查找逻辑，返回所有已知节点
+        return new ArrayList<>(manager.getNodes().values());
     }
 }

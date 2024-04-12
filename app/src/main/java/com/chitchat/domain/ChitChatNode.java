@@ -15,11 +15,8 @@ public class ChitChatNode {
 
     @Bean
     public DHTManager dhtManager() {
-        // Initialize DHTManager
-        DHTManager manager = new DHTManager();
-        manager.initializeDHTNetwork("nodeId1", "localhost", 8080);
+        DHTManager manager = new DHTManager("nodeId1", "localhost", 8080);
+        manager.initializeAndJoinDHTNetwork(null);
         return manager;
     }
-
-
 }
