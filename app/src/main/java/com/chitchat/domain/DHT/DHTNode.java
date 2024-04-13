@@ -14,13 +14,12 @@ public class DHTNode {
         this.host = host;
         this.port = port;
         this.manager = manager;
-        // 存储本节点信息到数据库
+        // Store thie node into DB
         DHTUtils.storeNode(nodeId, host, port);
     }
 
     public void joinNetwork(DHTNode bootstrapNode) {
         if (bootstrapNode != null) {
-            // 获取最接近的节点列表
             List<DHTNode> closestNodes = bootstrapNode.findNode(nodeId);
             for (DHTNode node : closestNodes) {
                 manager.getNodes().putIfAbsent(node.nodeId, node);
