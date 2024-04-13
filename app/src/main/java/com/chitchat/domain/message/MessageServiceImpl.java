@@ -20,6 +20,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void saveMessage(Message message) {
 
+        if (message.getContent() == null || message.getContent().trim().isEmpty()) {
+            log.info("Message content is empty");
+            return;
+        }
+
         if (message.getId() == null) {
             long timestamp = System.currentTimeMillis();
             message.setId(timestamp + "_" + IpAddressUtils.getFormattedIpAddress());
@@ -28,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
         }
 
         if (messageRepository.existsById(message.getId())) {
-            log.info("Message with id {} already existed", message.getId());
+            log.info("Message {} already existed", message.getId());
             return;
         }
 
@@ -41,6 +46,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveMessages(List<Message> messages) {
+
+        if (messages == null || messages.isEmpty()) {
+            log.info("Message list is empty");
+            return;
+        }
+
         messageRepository.saveMessages(messages);
     }
 
