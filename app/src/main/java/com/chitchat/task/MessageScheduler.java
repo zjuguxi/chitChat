@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -26,8 +27,11 @@ public class MessageScheduler {
     public void syncMessagesTask() {
         List<String> existedIds = messageService.getAllMessageIds();
         for (String serverAddress : serverAddresses) {
-            List<String> diffIds = messageGrpcClient.fetchMessageIds(serverAddress);
+            List<String> diffIds = new ArrayList<>(messageGrpcClient.fetchMessageIds(serverAddress));
             diffIds.removeAll(existedIds);
+            if (diffIds.isEmpty()) {
+                continue;
+            }
             List<Message> diffMessages = messageGrpcClient.pullMessages(serverAddress, diffIds);
             messageService.saveMessages(diffMessages);
             existedIds.addAll(diffIds);
