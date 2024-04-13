@@ -46,7 +46,6 @@ public class DHTNode {
     }
 
     public List<DHTNode> findNode(String targetNodeId) {
-        // 简化的查找逻辑，返回所有已知节点
         return new ArrayList<>(manager.getNodes().values());
     }
 }
