@@ -8,12 +8,15 @@ import com.chitchat.grpc.service.MessageIdsResponse;
 import com.chitchat.grpc.service.MessageRequest;
 import com.chitchat.grpc.service.MessageServiceGrpc;
 import com.chitchat.grpc.service.MessagesResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Component
 public class MessageGrpcClientImpl implements MessageGrpcClient {
 
@@ -25,16 +28,28 @@ public class MessageGrpcClientImpl implements MessageGrpcClient {
 
     @Override
     public void pushMessage(Message message) {
+        for (String serverAddress : serverAddresses) {
+            CompletableFuture.runAsync(() -> {
+                try {
+                    log.info("Start push message {} to server {}", message.getId(), serverAddress);
+                    pushMessage(serverAddress, message);
+                    log.info("Push message {} to server {} successful", message.getId(), serverAddress);
+                } catch (Exception e) {
+                    log.error(String.format("Push message %s to server %s failed", message.getId(), serverAddress), e);
+                }
+            });
+        }
+    }
+
+    private void pushMessage(String serverAddress, Message message) {
         MessageRequest request = MessageRequest.newBuilder()
                 .setId(message.getId())
                 .setSender(message.getSender())
                 .setSendTime(message.getSendTime())
                 .setContent(message.getContent())
                 .build();
-        for (String serverAddress : serverAddresses) {
-            MessageServiceGrpc.MessageServiceBlockingStub stub = stubManager.getStub(serverAddress);
-            stub.pushMessage(request);
-        }
+        MessageServiceGrpc.MessageServiceBlockingStub stub = stubManager.getStub(serverAddress);
+        stub.pushMessage(request);
     }
 
     @Override
