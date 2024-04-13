@@ -1,28 +1,27 @@
 package com.chitchat.domain.DHT;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DHTManager {
     private DHTNode localNode;
     private Map<String, DHTNode> nodes;
-    public DHTManager() {
-        this.nodes = new HashMap<>();
-    }
+    private Map<String, String> dataStore;
 
-    // Initiallization
-    public void initializeDHTNetwork(String nodeId, String host, int port) {
-        this.localNode = new DHTNode(nodeId, host, port);
-        this.localNode.joinNetwork(null); // Bootstrap node as a parameter
+    public DHTManager(String nodeId, String host, int port) {
+        this.nodes = new ConcurrentHashMap<>();
+        this.dataStore = new ConcurrentHashMap<>();
+        this.localNode = new DHTNode(nodeId, host, port, this);
         nodes.put(nodeId, localNode);
     }
 
-    // Join DHT
-    public void joinDHTNetwork(String nodeId, String bootstrapNodeId) {
+    // Initialize and join DHTNetwork
+    public void initializeAndJoinDHTNetwork(String bootstrapNodeId) {
         DHTNode bootstrapNode = nodes.get(bootstrapNodeId);
         if (bootstrapNode != null) {
             localNode.joinNetwork(bootstrapNode);
+        } else {
+            localNode.joinNetwork(null);
         }
     }
 
@@ -38,32 +37,11 @@ public class DHTManager {
         return localNode.findNode(key);
     }
 
-    private class DHTNode {
-        private String nodeId;
-        private String host;
-        private int port;
+    public Map<String, DHTNode> getNodes() {
+        return this.nodes;
+    }
 
-        public DHTNode(String nodeId, String host, int port) {
-            this.nodeId = nodeId;
-            this.host = host;
-            this.port = port;
-        }
-
-        public void joinNetwork(DHTNode bootstrapNode) {
-
-        }
-
-        public void store(String key, String value) {
-
-        }
-
-        public String findValue(String key) {
-
-            return null;
-        }
-
-        public List<DHTNode> findNode(String key) {
-            return null;
-        }
+    public Map<String, String> getDataStore() {
+        return this.dataStore;
     }
 }
