@@ -7,9 +7,8 @@ CREATE TABLE node (
 
 DROP TABLE IF EXISTS message;
 CREATE TABLE message (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     sender TEXT NOT NULL,
     send_time TIMESTAMP NOT NULL,
-    content TEXT NOT NULL,
-    receiver TEXT NOT NULL
+    content TEXT NOT NULL
 );

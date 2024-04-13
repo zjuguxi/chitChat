@@ -9,13 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageRequestDto {
 
-    private Long id;
-
-    private String sender;
-
-    private Long sendTime;
-
     private String content;
-
-    private String receiver;
 }
