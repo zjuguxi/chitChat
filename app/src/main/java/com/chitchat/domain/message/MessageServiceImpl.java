@@ -39,9 +39,7 @@ public class MessageServiceImpl implements MessageService {
 
         messageRepository.saveMessage(message);
 
-        if (message.getSender().equals(IpAddressUtils.getIpAddress())) {
-            messageGrpcClient.pushMessage(message);
-        }
+        messageGrpcClient.pushMessage(message);
     }
 
     @Override
